@@ -1,3 +1,36 @@
 ==> 2020-03-07 18:34:33 <==
 # cmd: C:\Users\Jaimi\Anaconda3\Scripts\conda-script.py create --prefix conda-env
 # conda version: 4.7.12
+==> 2020-03-07 20:02:58 <==
+# cmd: C:\Users\Jaimi\Anaconda3\Scripts\conda-script.py install requests
+# conda version: 4.7.12
++defaults::asn1crypto-1.3.0-py38_0
++defaults::ca-certificates-2020.1.1-0
++defaults::certifi-2019.11.28-py38_0
++defaults::cffi-1.14.0-py38h7a1dbc1_0
++defaults::chardet-3.0.4-py38_1003
++defaults::cryptography-2.8-py38h7a1dbc1_0
++defaults::idna-2.8-py38_1000
++defaults::openssl-1.1.1d-he774522_4
++defaults::pip-20.0.2-py38_1
++defaults::pycparser-2.19-py_0
++defaults::pyopenssl-19.1.0-py38_0
++defaults::pysocks-1.7.1-py38_0
++defaults::python-3.8.1-h5fd99cc_8_cpython
++defaults::requests-2.22.0-py38_1
++defaults::setuptools-45.2.0-py38_0
++defaults::six-1.14.0-py38_0
++defaults::sqlite-3.31.1-he774522_0
++defaults::urllib3-1.25.8-py38_0
++defaults::vc-14.1-h0510ff6_4
++defaults::vs2015_runtime-14.16.27012-hf0eaf9b_1
++defaults::wheel-0.34.2-py38_0
++defaults::win_inet_pton-1.1.0-py38_0
++defaults::wincertstore-0.2-py38_0
+# update specs: ['requests']
+==> 2020-03-07 20:11:09 <==
+# cmd: C:\Users\Jaimi\Anaconda3\Scripts\conda-script.py install BeautifulSoup4
+# conda version: 4.7.12
++defaults::beautifulsoup4-4.8.2-py38_0
++defaults::soupsieve-1.9.5-py38_0
+# update specs: ['beautifulsoup4']

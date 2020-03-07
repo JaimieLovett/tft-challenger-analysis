@@ -1,0 +1,4 @@
+name: D:\Data_Analysis\tft-challenger-analysis\conda-env
+channels:
+  - defaults
+prefix: D:\Data_Analysis\tft-challenger-analysis\conda-env

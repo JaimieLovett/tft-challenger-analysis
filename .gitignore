@@ -112,6 +112,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+conda-env/
 
 # Spyder project settings
 .spyderproject
@@ -133,3 +134,11 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace

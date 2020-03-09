@@ -16,7 +16,7 @@ num_pages_to_scrape = num_results_to_scrape // results_per_page
 # A list for storing all of our cleaned data before we write it to CSV
 tft_cleaned_data_list = []
 output_file_path = os.path.abspath(
-    __file__) + '\\..\\..\\data\\tft-summoner-stats.csv'
+    __file__) + '\\..\\..\\..\\data\\challenger-players-by-region.csv'
 csv_head = ['rank', 'name', 'tier', 'lp',
             'win rate', 'played', 'wins', 'losses', 'region']
 

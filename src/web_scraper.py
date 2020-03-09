@@ -17,8 +17,8 @@ num_pages_to_scrape = num_results_to_scrape // results_per_page
 tft_cleaned_data_list = []
 output_file_path = os.path.abspath(
     __file__) + '\\..\\..\\data\\tft-summoner-stats.csv'
-csv_head = ['RANK', 'NAME', 'TIER', 'LP',
-            'WIN RATE', 'PLAYED', 'WINS', 'LOSSES', 'REGION']
+csv_head = ['rank', 'name', 'tier', 'lp',
+            'win rate', 'played', 'wins', 'losses', 'region']
 
 
 def get_url_to_scrape(region, page_num):

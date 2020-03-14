@@ -12,7 +12,7 @@ class AppDAO:
         except Error as e:
             print(e)
 
-    def run(self, sql, params=()):
+    def run(self, sql, params=[]):
         try:
             self.cur.execute(sql, params)
             self.con.commit()

@@ -1,4 +1,4 @@
-from scraper import TFTScraper
+from scrape.scraper import TFTScraper
 
 scraper = TFTScraper()
 scraper.scrape()

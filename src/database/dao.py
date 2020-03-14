@@ -5,9 +5,16 @@ from sqlite3 import Error
 class AppDAO:
 
     def __init__(self, db_file_path):
-        self.conn = None
+        self.con = None
         try:
-            self.conn = sqlite3.connect(db_file_path)
-            print(sqlite3.version)
+            self.con = sqlite3.connect(db_file_path)
+            self.cur = self.con.cursor()
+        except Error as e:
+            print(e)
+
+    def run(self, sql, params=()):
+        try:
+            self.cur.execute(sql, params)
+            self.con.commit()
         except Error as e:
             print(e)

@@ -1,6 +1,5 @@
 from scrape.scraper import PlayerDataScraper
 from database.dao import AppDAO
-from database.regions_table import RegionsTable
 from database.players_table import PlayersTable
 
 dao = AppDAO('data/tft.db')
@@ -10,5 +9,6 @@ players_table.init()
 
 scraper = PlayerDataScraper()
 players = scraper.scrape()
+
 for player in players:
     players_table.create(*player)

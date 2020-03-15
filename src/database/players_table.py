@@ -22,10 +22,31 @@ class PlayersTable():
 
     def create(self, rank, name, tier, lp,
                winrate, played, wins, losses, region):
-        self.dao.run(
+        return self.dao.run(
             '''
             INSERT OR IGNORE INTO players
             (rank, name, tier, lp, winrate, played, wins, losses, region)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''',
             [rank, name, tier, lp, winrate, played, wins, losses, region])
+
+    def getAll(self):
+        return self.dao.get(
+            '''
+            SELECT * FROM players
+            '''
+        )
+
+    def getAllNames(self):
+        return self.dao.get(
+            '''
+            SELECT name FROM players
+            '''
+        )
+
+    def getAllNamesAndRegions(self):
+        return self.dao.get(
+            '''
+            SELECT name, region FROM players
+            '''
+        )

@@ -45,7 +45,7 @@ class PlayerDataScraper(Scraper):
         self.num_players = 200
         self.results_per_page = 100
 
-        self.output_file = self.output_file + 'challenger-players.csv'
+        self.output_file = self.output_file + 'top-200-players.csv'
         self.csv_file_header = [
             'rank',
             'name',
@@ -104,13 +104,13 @@ class PlayerDataScraper(Scraper):
                     self.data.append(clean_row)
 
         print('Scraping Player data complete...')
-
+        return self.data
         # Write our cleaned data to a CSV file
-        with open(self.output_file, 'a', encoding="utf-8", newline='') as file:
-            print('Writing results to CSV file...')
-            writer = csv.writer(file)
-            writer.writerow(self.csv_file_header)
-            for row in self.data:
-                writer.writerow(row)
+        # with open(self.output_file, 'a', encoding="utf-8", newline='') as file:
+        #     print('Writing results to CSV file...')
+        #     writer = csv.writer(file)
+        #     writer.writerow(self.csv_file_header)
+        #     for row in self.data:
+        #         writer.writerow(row)
 
-            print('Writing results to CSV file complete...')
+        #     print('Writing results to CSV file complete...')

@@ -4,12 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class TFTScraper:
+class Scraper:
 
-    def __init__(self):
-        # The URL to scrape and all of the regions we're interested in.
-        self.url = 'https://lolchess.gg/leaderboards?region={0}&page={1}'
-        self.regions_to_scrape = [
+    def __init__(self, url_to_scrape):
+        self.url = url_to_scrape
+        self.regions = [
             'na',
             'br',
             'eune',
@@ -23,12 +22,20 @@ class TFTScraper:
             'ru'
         ]
 
+        # A list for storing all of our cleaned data.
+        self.data = list()
+
+
+class PlayerDataScraper(Scraper):
+
+    def __init__(self):
+        Scraper.__init__(
+            self, 'https://lolchess.gg/leaderboards?region={0}&page={1}')
+
         # Work out how many pages we need to scrape.
         self.num_players = 200
         self.results_per_page = 100
 
-        # A list for storing all of our cleaned data.
-        self.data = list()
         self.output_file = os.path.abspath(
             __file__) + '\\..\\..\\..\\data\\challenger-players-by-region.csv'
         self.csv_file_header = [
@@ -73,19 +80,19 @@ class TFTScraper:
     def scrape(self):
         print('Scraping... Please wait...')
 
-        num_regions_to_scrape = len(self.regions_to_scrape)
+        num_regions_to_scrape = len(self.regions)
         num_pages_to_scrape = self.num_players // self.results_per_page
 
         for region in range(num_regions_to_scrape):
 
             print('Scraping {0} region...'.format(
-                self.regions_to_scrape[region].upper()))
+                self.regions[region].upper()))
 
             for page in range(num_pages_to_scrape):
                 soup = self._get_html(
                     self._get_url_to_scrape(
                         self.url,
-                        self.regions_to_scrape[region], page + 1))
+                        self.regions[region], page + 1))
 
                 # Find all rows on the page and delete the header row
                 rows = self._get_player_rows(soup)
@@ -93,7 +100,7 @@ class TFTScraper:
 
                 for row in rows:
                     clean_row = self._get_cleaned_row(row)
-                    clean_row.append(self.regions_to_scrape[region])
+                    clean_row.append(self.regions[region])
                     self.data.append(clean_row)
 
         print('Scraping complete...')

@@ -47,6 +47,6 @@ class PlayersTable():
     def getAllNamesAndRegions(self):
         return self.dao.get(
             '''
-            SELECT name, region FROM players
+            SELECT name, region FROM players LIMIT 5
             '''
         )

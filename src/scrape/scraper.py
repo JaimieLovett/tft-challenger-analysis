@@ -4,12 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class TFTScraper:
+class Scraper:
 
-    def __init__(self):
-        # The URL to scrape and all of the regions we're interested in.
-        self.url = 'https://lolchess.gg/leaderboards?region={0}&page={1}'
-        self.regions_to_scrape = [
+    def __init__(self, url_to_scrape):
+        self.url = url_to_scrape
+        self.regions = [
             'na',
             'br',
             'eune',
@@ -23,32 +22,8 @@ class TFTScraper:
             'ru'
         ]
 
-        # Work out how many pages we need to scrape.
-        self.num_players = 200
-        self.results_per_page = 100
-
         # A list for storing all of our cleaned data.
         self.data = list()
-        self.output_file = os.path.abspath(
-            __file__) + '\\..\\..\\..\\data\\challenger-players-by-region.csv'
-        self.csv_file_header = [
-            'rank',
-            'name',
-            'tier',
-            'lp',
-            'win rate',
-            'played',
-            'wins',
-            'losses',
-            'region'
-        ]
-
-    def _get_url_to_scrape(self, site_url, region, page_num):
-        '''
-        A function to format the URL string we want to
-        scrape by inserting the region and page number
-        '''
-        return site_url.format(region, page_num)
 
     def _get_html(self, url):
         '''
@@ -57,6 +32,26 @@ class TFTScraper:
         page = requests.get(url)
 
         return BeautifulSoup(page.content, 'html.parser')
+
+
+class PlayerDataScraper(Scraper):
+
+    def __init__(self):
+        Scraper.__init__(
+            self, 'https://lolchess.gg/leaderboards?region={0}&page={1}')
+
+        # Work out how many pages we need to scrape.
+        self.num_players = 200
+        self.results_per_page = 100
+
+        self.output_file = self.output_file + 'top-200-players.csv'
+
+    def _get_url_to_scrape(self, site_url, region, page_num):
+        '''
+        A function to format the URL string we want to
+        scrape by inserting the region and page number
+        '''
+        return site_url.format(region, page_num)
 
     def _get_player_rows(self, soup):
         return soup.find_all('tr')
@@ -71,21 +66,21 @@ class TFTScraper:
         return row
 
     def scrape(self):
-        print('Scraping... Please wait...')
+        print('Scraping Player data... Please wait...')
 
-        num_regions_to_scrape = len(self.regions_to_scrape)
+        num_regions_to_scrape = len(self.regions)
         num_pages_to_scrape = self.num_players // self.results_per_page
 
         for region in range(num_regions_to_scrape):
 
             print('Scraping {0} region...'.format(
-                self.regions_to_scrape[region].upper()))
+                self.regions[region].upper()))
 
             for page in range(num_pages_to_scrape):
                 soup = self._get_html(
                     self._get_url_to_scrape(
                         self.url,
-                        self.regions_to_scrape[region], page + 1))
+                        self.regions[region], page + 1))
 
                 # Find all rows on the page and delete the header row
                 rows = self._get_player_rows(soup)
@@ -93,17 +88,8 @@ class TFTScraper:
 
                 for row in rows:
                     clean_row = self._get_cleaned_row(row)
-                    clean_row.append(self.regions_to_scrape[region])
+                    clean_row.append(self.regions[region])
                     self.data.append(clean_row)
 
-        print('Scraping complete...')
-
-        # Write our cleaned data to a CSV file
-        with open(self.output_file, 'a', encoding="utf-8", newline='') as file:
-            print('Writing results to CSV file...')
-            writer = csv.writer(file)
-            writer.writerow(self.csv_file_header)
-            for row in self.data:
-                writer.writerow(row)
-
-            print('Writing results to CSV file complete...')
+        print('Scraping Player data complete...')
+        return self.data

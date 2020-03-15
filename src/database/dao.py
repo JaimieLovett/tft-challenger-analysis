@@ -18,3 +18,12 @@ class AppDAO:
             self.con.commit()
         except Error as e:
             print(e)
+
+    def get(self, sql, params=[]):
+        try:
+            self.cur.execute(sql, params)
+            rows = self.cur.fetchall()
+            self.con.commit()
+            return rows
+        except Error as e:
+            print(e)

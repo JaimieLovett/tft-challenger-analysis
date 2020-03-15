@@ -24,6 +24,15 @@ class Scraper:
 
         # A list for storing all of our cleaned data.
         self.data = list()
+        self.output_file = os.path.abspath(__file__) + '\\..\\..\\..\\data\\'
+
+    def _get_html(self, url):
+        '''
+        Returns the HTML content for the provided URL
+        '''
+        page = requests.get(url)
+
+        return BeautifulSoup(page.content, 'html.parser')
 
 
 class PlayerDataScraper(Scraper):
@@ -36,8 +45,7 @@ class PlayerDataScraper(Scraper):
         self.num_players = 200
         self.results_per_page = 100
 
-        self.output_file = os.path.abspath(
-            __file__) + '\\..\\..\\..\\data\\challenger-players-by-region.csv'
+        self.output_file = self.output_file + 'challenger-players.csv'
         self.csv_file_header = [
             'rank',
             'name',
@@ -57,14 +65,6 @@ class PlayerDataScraper(Scraper):
         '''
         return site_url.format(region, page_num)
 
-    def _get_html(self, url):
-        '''
-        Returns the HTML content for the provided URL
-        '''
-        page = requests.get(url)
-
-        return BeautifulSoup(page.content, 'html.parser')
-
     def _get_player_rows(self, soup):
         return soup.find_all('tr')
 
@@ -78,7 +78,7 @@ class PlayerDataScraper(Scraper):
         return row
 
     def scrape(self):
-        print('Scraping... Please wait...')
+        print('Scraping Player data... Please wait...')
 
         num_regions_to_scrape = len(self.regions)
         num_pages_to_scrape = self.num_players // self.results_per_page
@@ -103,7 +103,7 @@ class PlayerDataScraper(Scraper):
                     clean_row.append(self.regions[region])
                     self.data.append(clean_row)
 
-        print('Scraping complete...')
+        print('Scraping Player data complete...')
 
         # Write our cleaned data to a CSV file
         with open(self.output_file, 'a', encoding="utf-8", newline='') as file:

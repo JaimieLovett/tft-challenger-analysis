@@ -24,7 +24,6 @@ class Scraper:
 
         # A list for storing all of our cleaned data.
         self.data = list()
-        self.output_file = os.path.abspath(__file__) + '\\..\\..\\..\\data\\'
 
     def _get_html(self, url):
         '''
@@ -46,17 +45,6 @@ class PlayerDataScraper(Scraper):
         self.results_per_page = 100
 
         self.output_file = self.output_file + 'top-200-players.csv'
-        self.csv_file_header = [
-            'rank',
-            'name',
-            'tier',
-            'lp',
-            'win rate',
-            'played',
-            'wins',
-            'losses',
-            'region'
-        ]
 
     def _get_url_to_scrape(self, site_url, region, page_num):
         '''
@@ -105,12 +93,3 @@ class PlayerDataScraper(Scraper):
 
         print('Scraping Player data complete...')
         return self.data
-        # Write our cleaned data to a CSV file
-        # with open(self.output_file, 'a', encoding="utf-8", newline='') as file:
-        #     print('Writing results to CSV file...')
-        #     writer = csv.writer(file)
-        #     writer.writerow(self.csv_file_header)
-        #     for row in self.data:
-        #         writer.writerow(row)
-
-        #     print('Writing results to CSV file complete...')

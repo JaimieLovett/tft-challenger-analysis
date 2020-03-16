@@ -1,5 +1,4 @@
-import os
-import csv
+import pickle
 import requests
 from bs4 import BeautifulSoup
 
@@ -57,22 +56,27 @@ class MatchDataScraper(Scraper):
             match_mode = div.find("div", {"class": "game-mode"})
             match_length = div.find("div", {"class": "length"})
             traits = [trait.img['alt']
-                      for trait in div.find_all("div", {"class": "tft-hexagon"})]
+                      for trait in div.find_all(
+                          "div", {"class": "tft-hexagon"})]
             units = [unit.img['alt']
-                     for unit in div.find_all("div", {"class": "tft-champion"})]
+                     for unit in div.find_all(
+                         "div", {"class": "tft-champion"})]
+
+            traits = pickle.dumps(traits)
+            units = pickle.dumps(units)
             match_history.append(
-                {
-                    "match_placement": match_placement.text.replace("#", ""),
-                    "match_mode": match_mode.text,
-                    "match_length": match_length.text,
-                    "traits": traits,
-                    "units": units
-                }
+                [
+                    match_placement.text.replace("#", ""),
+                    match_mode.text,
+                    match_length.text,
+                    traits,
+                    units
+                ]
             )
         return match_history
 
     def scrape(self):
-        print('Scraping Match history data for player "{0}" of {1} region...'.format(
+        print('Scraping data for player "{0}" of {1} region...'.format(
             self.player[0], self.player[1].upper()))
         soup = self._get_html(
             self._get_url_to_scrape(
@@ -96,8 +100,6 @@ class PlayerDataScraper(Scraper):
         # Work out how many pages we need to scrape.
         self.num_players = 200
         self.results_per_page = 100
-
-        self.output_file = self.output_file + 'top-200-players.csv'
 
     def _get_url_to_scrape(self, site_url, region, page_num):
         '''

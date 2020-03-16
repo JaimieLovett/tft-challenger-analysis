@@ -47,6 +47,14 @@ class PlayersTable():
     def getAllNamesAndRegions(self):
         return self.dao.get(
             '''
-            SELECT name, region FROM players LIMIT 5
+            SELECT name, region FROM players
             '''
+        )
+
+    def getPlayerIdByNameAndRegion(self, name, region):
+        return self.dao.get(
+            '''
+            SELECT playerid FROM players WHERE name = ? AND region = ?
+            ''',
+            [name, region]
         )

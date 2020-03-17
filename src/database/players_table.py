@@ -37,6 +37,13 @@ class PlayersTable():
             '''
         )
 
+    def getAllIds(self):
+        return self.dao.get(
+            '''
+            SELECT playerid FROM players
+            '''
+        )
+
     def getAllNames(self):
         return self.dao.get(
             '''
@@ -49,4 +56,20 @@ class PlayersTable():
             '''
             SELECT name, region FROM players
             '''
+        )
+
+    def getNameAndRegionById(self, playerid):
+        return self.dao.get(
+            '''
+            SELECT name, region FROM players WHERE playerid = ?
+            ''',
+            [playerid]
+        )
+
+    def getPlayerIdByNameAndRegion(self, name, region):
+        return self.dao.get(
+            '''
+            SELECT playerid FROM players WHERE name = ? AND region = ?
+            ''',
+            [name, region]
         )

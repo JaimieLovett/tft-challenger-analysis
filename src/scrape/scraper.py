@@ -1,5 +1,4 @@
-import os
-import csv
+import pickle
 import requests
 from bs4 import BeautifulSoup
 
@@ -34,6 +33,65 @@ class Scraper:
         return BeautifulSoup(page.content, 'html.parser')
 
 
+class MatchDataScraper(Scraper):
+
+    def __init__(self, player):
+        Scraper.__init__(self, 'https://lolchess.gg/profile/{0}/{1}')
+
+        self.player = player
+        print(player)
+
+    def _get_url_to_scrape(self, site_url, region, player):
+        '''
+        A function to format the URL string we want to
+        scrape by inserting the region and player name
+        '''
+        return site_url.format(region, player.replace(" ", ""))
+
+    def _get_match_data(self, soup):
+        match_history = []
+        divs = soup.find_all(
+            "div", {"class": "profile__match-history-v2__item"})
+        for div in divs:
+            match_placement = div.find("div", {"class": "placement"})
+            match_mode = div.find("div", {"class": "game-mode"})
+            match_length = div.find("div", {"class": "length"})
+            traits = [trait.img['alt']
+                      for trait in div.find_all(
+                          "div", {"class": "tft-hexagon"})]
+            units = [unit.img['alt']
+                     for unit in div.find_all(
+                         "div", {"class": "tft-champion"})]
+
+            traits = pickle.dumps(traits)
+            units = pickle.dumps(units)
+            match_history.append(
+                [
+                    match_placement.text.replace("#", ""),
+                    match_mode.text,
+                    match_length.text,
+                    traits,
+                    units
+                ]
+            )
+        return match_history
+
+    def scrape(self):
+        print('Scraping data for player "{0}" of {1} region...'.format(
+            self.player[0], self.player[1].upper()))
+        soup = self._get_html(
+            self._get_url_to_scrape(
+                self.url,
+                self.player[1],
+                self.player[0]))
+
+        # Find the match history for player
+        self.data = self._get_match_data(soup)
+
+        print('Scraping Match data complete...')
+        return self.data
+
+
 class PlayerDataScraper(Scraper):
 
     def __init__(self):
@@ -43,8 +101,6 @@ class PlayerDataScraper(Scraper):
         # Work out how many pages we need to scrape.
         self.num_players = 200
         self.results_per_page = 100
-
-        self.output_file = self.output_file + 'top-200-players.csv'
 
     def _get_url_to_scrape(self, site_url, region, page_num):
         '''

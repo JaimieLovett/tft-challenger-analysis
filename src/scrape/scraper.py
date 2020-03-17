@@ -39,6 +39,7 @@ class MatchDataScraper(Scraper):
         Scraper.__init__(self, 'https://lolchess.gg/profile/{0}/{1}')
 
         self.player = player
+        print(player)
 
     def _get_url_to_scrape(self, site_url, region, player):
         '''

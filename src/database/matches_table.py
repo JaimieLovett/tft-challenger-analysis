@@ -24,3 +24,10 @@ class MatchesTable():
             VALUES (?, ?, ?, ?, ?, ?)
             ''',
             [playerid, placement, mode, length, traits, units])
+
+    def getAllPlayerIds(self):
+        return self.dao.get(
+            '''
+            SELECT playerid FROM matches
+            '''
+        )

@@ -23,7 +23,7 @@ class AppDAO:
         try:
             self.cur.execute(sql, params)
             rows = self.cur.fetchall()
-            self.con.commit()
+            # self.con.commit()
             return rows
         except Error as e:
             print(e)

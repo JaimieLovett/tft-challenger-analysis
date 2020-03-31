@@ -10,7 +10,7 @@ def database_setup():
     Create the TFT database, as well as the players
     and matches tables.
     '''
-    dao = AppDAO('data/tft.db')
+    dao = AppDAO('data/raw/tft.db')
 
     players_table = PlayersTable(dao)
     players_table.init()

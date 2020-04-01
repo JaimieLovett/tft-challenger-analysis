@@ -2,5 +2,5 @@
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.linting.enabled": true,
-  "python.pythonPath": "D:\\Data_Analysis\\tft-challenger-analysis\\conda-env\\python.exe"
+  "python.pythonPath": "C:\\Data_Analysis\\tft-challenger-analysis\\conda-env\\python.exe"
 }

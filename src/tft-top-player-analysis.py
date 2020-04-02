@@ -1,8 +1,8 @@
 from scrape.scraper import PlayerDataScraper
 from scrape.scraper import MatchDataScraper
-from database.dao import AppDAO
-from database.players_table import PlayersTable
-from database.matches_table import MatchesTable
+from dao.dao import AppDAO
+from dao.players_table import PlayersTable
+from dao.matches_table import MatchesTable
 
 
 def database_setup():
@@ -40,9 +40,9 @@ def populate_players_table(players, players_table):
         players_table.create(*player)
 
 
-def main():
+def main():  
     NUM_SCRAPE_ITERATIONS = 50
-
+    
     players_table, matches_table = database_setup()
     players = scrape_players()
     populate_players_table(players)

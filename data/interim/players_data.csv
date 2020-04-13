@@ -1,4 +1,4 @@
-playerid,rank,name,tier,lp,winrate,played,wins,losses,region
+player_id,rank,name,tier,lp,win_rate,played,wins,losses,region
 1,1,Mismatched Socks,CHALLENGER I,1569,21.4,499,107,392,na
 2,2,Ms MatchedSocks,CHALLENGER I,1507,21.7,465,101,364,na
 3,3,GrandVice8,CHALLENGER I,1480,19.9,801,159,642,na
